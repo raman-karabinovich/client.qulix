@@ -1,0 +1,101 @@
+<button type="button" class="btn btn-primary" (click)="startEdit();editModal.show()"><span class="glyphicon glyphicon-edit"></span>Edit</button>
+
+<div class="modal fade" bsModal #editModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Edit performer</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide();cancelEdit();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onEdit();editModal.hide();" #editPerformerForm="ngForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="form-control-label">Name:</label>
+            <input name="second-name"
+                   [(ngModel)]="model.name"
+                   #name="ngModel"
+                   type="text" class="form-control" id="name" required>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+              Name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="workload" class="form-control-label">Workload:</label>
+            <input name="first-name"
+                   [(ngModel)]="model.workload"
+                   #workload="ngModel"
+                   type="text" class="form-control" id="workload" required>
+            <div [hidden]="workload.valid || workload.pristine" class="alert alert-danger">
+              Workload is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label">Start date:</label>
+            <div class="input-group date-block">
+              <button type="button"
+                      class="btn btn-primary glyphicon glyphicon-calendar"
+                      (click)="isStartDayVisible = !isStartDayVisible"></button>
+              <div class="date-show">{{model.start_date | date:'yyyy-MM-dd'}}</div>
+              <datepicker class="datepicker-widget"
+                          [(ngModel)]="model.start_date"
+                          [showWeeks]="false"
+                          name="startDate"
+                          [hidden]="!isStartDayVisible"
+                          (click)="isStartDayVisible = !isStartDayVisible"
+                          #startDate="ngModel"></datepicker>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="button"
+                    class="btn btn-primary glyphicon glyphicon-calendar"
+                    (click)="isEndDayVisible = !isEndDayVisible"></button>
+            <div class="date-show">{{model.end_date | date:'yyyy-MM-dd'}}</div>
+            <datepicker class="datepicker-widget"
+                        [(ngModel)]="model.end_date"
+                        [showWeeks]="false"
+                        name="endDate"
+                        [hidden]="!isEndDayVisible"
+                        (click)="isEndDayVisible = !isEndDayVisible"
+                        #endDate="ngModel"></datepicker>
+          </div>
+          <div [hidden]="endDate.valid || endDate.pristine" class="alert alert-danger">
+            End date is required
+          </div>
+          <div class="form-group">
+            <label for="status" class="form-control-label">Status:</label>
+            <select class="form-control" id="status" [(ngModel)]="model.status" #status="ngModel" name="status"
+                    required>
+              <option *ngFor="let c of statusArray" [selected]="model.status == c.id" [ngValue]="c.id">{{c.name}}
+              </option>
+            </select>
+          </div>
+          <div [hidden]="status.valid || status.pristine || model.status != 0" class="alert alert-danger">
+            Status is required
+          </div>
+          <div class="form-group">
+            <label for="performer" class="form-control-label">Performer:</label>
+            <select class="form-control" id="performer" [(ngModel)]="model.performer" #performer="ngModel"
+                    name="performer" required>
+              <option *ngFor="let c of performersData" [selected]="model.performer == c.id" [ngValue]="c.id">
+                {{c.second_name + ' ' + c.first_name}}
+              </option>
+            </select>
+          </div>
+          <div [hidden]="performer.valid || performer.pristine" class="alert alert-danger">
+            Performer is required
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="editPerformerForm.form.invalid || !editPerformerForm.form.dirty">Save changes
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="editModal.hide();cancelEdit();">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

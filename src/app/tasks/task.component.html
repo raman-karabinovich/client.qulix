@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <task-add class="row" (create)="create($event)"></task-add>
+  <table class="table" *ngIf="data.length > 0 && performersData.length > 0 && !loading">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Workload</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Status</th>
+      <th>Performer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of data">
+      <th scope="row">{{item.id}}</th>
+      <td>{{item.name}}</td>
+      <td>{{item.workload}}</td>
+      <td>{{item.start_date | date:'yyyy-MM-dd'}}</td>
+      <td>{{item.end_date | date:'yyyy-MM-dd'}}</td>
+      <td>{{getStatus(item.status)}}</td>
+      <td>{{getPerformer(item.performer)}}</td>
+      <td>
+        <task-edit [model]="item" [performersData]="performersData" (edit)="edit($event)"></task-edit>
+        <task-delete (delete)="delete(item)"></task-delete>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <pagination *ngIf="totalItems >0" class="row"
+              [directionLinks]="false"
+              [totalItems]="totalItems"
+              [itemsPerPage]="perPage"
+              [(ngModel)]="currentPage"
+              (pageChanged)="onPageChange($event);"
+  ></pagination>
+  <app-loader [loading]="loading"></app-loader>
+</div>

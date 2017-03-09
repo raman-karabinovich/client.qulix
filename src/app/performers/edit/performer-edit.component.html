@@ -1,0 +1,55 @@
+<button type="button" class="btn btn-primary" (click)="startEdit();editModal.show()"><span class="glyphicon glyphicon-edit"></span>Edit</button>
+
+<div class="modal fade" bsModal #editModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Edit performer</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide();cancelEdit();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onEdit();editModal.hide();" #editPerformerForm="ngForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="second-name" class="form-control-label">Second Name:</label>
+            <input name="second-name"
+                   [(ngModel)]="model.second_name"
+                   #secondName="ngModel"
+                   type="text" class="form-control" id="second-name" required>
+            <div [hidden]="secondName.valid || secondName.pristine" class="alert alert-danger">
+              Second Name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="first-name" class="form-control-label">First Name:</label>
+            <input name="first-name"
+                   [(ngModel)]="model.first_name"
+                   #firstName="ngModel"
+                   type="text" class="form-control" id="first-name" required>
+            <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
+              First Name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="middle-name" class="form-control-label">Middle Name:</label>
+            <input name="middle-name"
+                   [(ngModel)]="model.middle_name"
+                   #middleName="ngModel"
+                   type="text" class="form-control" id="middle-name" required>
+          </div>
+          <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">
+            Middle Name is required
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="editPerformerForm.form.invalid || !editPerformerForm.form.dirty">Save changes
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="editModal.hide();cancelEdit();">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <performer-add class="row" (create)="create($event)"></performer-add>
+  <table class="table" *ngIf="data.length > 0 && !loading">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Second Name</th>
+      <th>First Name</th>
+      <th>Middle name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="data.length > 0">
+    <tr *ngFor="let item of data">
+      <th scope="row">{{item.id}}</th>
+      <td>{{item.second_name}}</td>
+      <td>{{item.first_name}}</td>
+      <td>{{item.middle_name}}</td>
+      <td>
+        <performer-edit [model]="item" (edit)="edit($event)"></performer-edit>
+        <performer-delete (delete)="delete(item)"></performer-delete>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <pagination *ngIf="totalItems >0" class="row"
+              [directionLinks]="false"
+              [totalItems]="totalItems"
+              [itemsPerPage]="perPage"
+              [(ngModel)]="currentPage"
+              (pageChanged)="onPageChange($event);"
+  ></pagination>
+  <app-loader [loading]="loading"></app-loader>
+</div>

@@ -1,0 +1,15 @@
+.date-block {
+  position: relative;
+}
+
+.date-show {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.datepicker-widget {
+  position: absolute;
+  z-index: 10;
+  top: 35px;
+  left: 0px;
+}
